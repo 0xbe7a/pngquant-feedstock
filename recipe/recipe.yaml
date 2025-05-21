@@ -1,0 +1,51 @@
+context:
+  name: pngquant
+  version: 3.0.3
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  # We cant use a tarball, as we need to clone the submodules
+  git: https://github.com/kornelski/${{ name }}.git
+  tag: ${{ version }}
+
+build:
+  number: 0
+  # skip: win lets try windows
+  script:
+    - if: win
+      then:
+        - cargo install --path . --root "%LIBRARY_PREFIX%"
+      else:
+        - cargo install --path . --root "$PREFIX"
+    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+
+requirements:
+  build:
+    - pkg-config
+    - cargo-bundle-licenses
+    - ${{ compiler('rust') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('c') }}
+  host:
+    - libpng
+    - lcms2
+
+tests:
+  - script:
+      - pngquant --version
+
+about:
+  summary: Lossy PNG compressor — pngquant command based on libimagequant library
+  license: GPL-3.0-or-later
+  license_file:
+    - LICENSE
+    - THIRDPARTY.yml
+  homepage: https://pngquant.org/
+
+extra:
+  recipe-maintainers:
+    - "0xbe7a"
+    - izahn
