@@ -29,9 +29,6 @@ requirements:
     - ${{ compiler('rust') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('c') }}
-  host:
-    - libpng
-    - lcms2
 
 tests:
   - script:
