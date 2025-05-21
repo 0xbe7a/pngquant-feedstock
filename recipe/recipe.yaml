@@ -20,7 +20,7 @@ build:
       then:
         - cargo install --path . --root "%LIBRARY_PREFIX%"
       else:
-        - cargo install --path . --root "$PREFIX" --features=static
+        - cargo install --path . --root "$PREFIX"
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 
 requirements:
@@ -31,6 +31,8 @@ requirements:
     - ${{ compiler('rust') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('c') }}
+  host:
+    - libpng
 
 tests:
   - script:
