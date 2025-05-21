@@ -16,11 +16,14 @@ build:
   script:
     - DEP_NAME="imagequant-sys" && VERSION=$(yq e ".dependencies.\"${DEP_NAME}\".version" Cargo.toml) && sed -i.bak "s/${DEP_NAME} = { version = \"${VERSION}\", path = [^}]*}/${DEP_NAME} = \"${VERSION}\"/" Cargo.toml # Use crates.io version
     - cat Cargo.toml
+    # - echo "[patch.crates-io]" >> Cargo.toml
+    # - echo "libpng-sys = { path = \"/Users/bela/Documents/conda-forge/feedstocks/pngquant-feedstock/rust-libpng-sys\" }" >> Cargo.toml
     - if: win
       then:
         - cargo install --path . --root "%LIBRARY_PREFIX%"
       else:
-        - cargo install --path . --root "$PREFIX"
+        - pkg-config --debug --atleast-version=1.6 --libs --cflags libpng
+        - cargo install --path . --root "$PREFIX" -vvv
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 
 requirements:
@@ -33,6 +36,8 @@ requirements:
     - ${{ compiler('c') }}
   host:
     - libpng
+    - zlib
+    - pkg-config
 
 tests:
   - script:
