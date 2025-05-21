@@ -13,7 +13,7 @@ source:
 
 build:
   number: 0
-  # skip: win lets try windows
+  skip: win # https://github.com/conda-forge/conda-smithy/issues/2239#issuecomment-2898757737
   script:
     - if: win
       then:
