@@ -36,7 +36,7 @@ requirements:
     - ${{ compiler('c') }}
   host:
     - libpng
-    - zlib
+    # - zlib
     - pkg-config
 
 tests:
