@@ -27,6 +27,9 @@ build:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 
 requirements:
+  ignore_run_exports:
+      from_package:
+        - zlib
   build:
     - go-yq
     - pkg-config
